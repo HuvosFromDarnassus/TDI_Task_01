@@ -4,7 +4,20 @@ namespace TDI_Task_01
 {
     class Program
     {
-        static string ContinueAnswer()
+        static void ShowBadDealMessage(double diamonds, double gold)
+        {
+            Console.Write("(Game Master) The deal was not completed\n\nDiamonds was: "
+                        + diamonds + "\nGold was: " + gold);
+        }
+
+        static void ShowGoodDealMessage(double diamonds, double gold, double purchase)
+        {
+            Console.Write("(Game Master) You purchased:\n\n"
+                        + purchase + " diamonds" + "\nGold left " + gold
+                        + "\nDiamonds left " + diamonds);
+        }
+
+        static string GetAnswer()
         {
             Console.Write("\n(Game Master) Continue ? [Y / N]");
             string continueAns = Console.ReadLine();
@@ -12,15 +25,15 @@ namespace TDI_Task_01
             return continueAns;
         }
 
-        static bool ContinueTheGame(string isContinueAns)
+        static bool findСontinuation(string answer)
         {
-            if (isContinueAns == "Y" ||
-                isContinueAns == "y")
+            if (answer == "Y" ||
+                answer == "y")
             {
                 return true;
             }
-            else if (isContinueAns == "N" ||
-                isContinueAns == "n")
+            else if (answer == "N" ||
+                answer == "n")
             {
                 return false;
             }
@@ -51,28 +64,26 @@ namespace TDI_Task_01
 
                 if (purchase > diamonds)
                 {
-                    Console.Write("(Game Master) The deal was not completed\n\nDiamonds was: "
-                        + diamonds + "\nGold was: " + gold);
+                    ShowBadDealMessage(diamonds, gold);
 
-                    isContinue = ContinueTheGame(ContinueAnswer());
+                    isContinue = findСontinuation(GetAnswer());
                 }
                 else if (gold - purchase * price < 0)
                 {
                     Console.Write("\n(Game Master) Not enough gold");
-                    Console.Write("\n(Game Master) The deal was not completed\n\nDiamonds was: "
-                        + diamonds + "\nGold was: " + gold);
 
-                    isContinue = ContinueTheGame(ContinueAnswer());
+                    ShowBadDealMessage(diamonds, gold);
+
+                    isContinue = findСontinuation(GetAnswer());
                 }
                 else
                 {
                     gold -= purchase * price;
                     diamonds -= purchase;
-                    Console.Write("(Game Master) You purchased:\n\n"
-                        + purchase + " diamonds" + "\nGold left " + gold
-                        + "\nDiamonds left " + diamonds);
 
-                    isContinue = ContinueTheGame(ContinueAnswer());
+                    ShowGoodDealMessage(diamonds, gold, purchase);
+
+                    isContinue = findСontinuation(GetAnswer());
                 }
             }
         }
